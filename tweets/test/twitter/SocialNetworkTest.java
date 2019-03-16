@@ -14,6 +14,11 @@ import java.util.Set;
 import org.junit.Test;
 
 public class SocialNetworkTest {
+	 private static final Instant d1 = Instant.parse("2016-02-17T10:00:00Z");
+	    private static final Instant d2 = Instant.parse("2016-02-17T11:00:00Z");
+	    
+	    private static final Tweet tweet1 = new Tweet(1, "alyssa", "is it reasonable to talk about rivest so much?", d1);
+	    private static final Tweet tweet2 = new Tweet(2, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
 
     /*
      * TODO: your testing strategies for these methods should go here.
@@ -40,6 +45,13 @@ public class SocialNetworkTest {
         
         assertTrue("expected empty list", influencers.isEmpty());
     }
+    @Test
+    public void testInfluencersSingleTweetnoInfluence(){
+        Map<String,Set<String>> followsGraph= SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1));
+        List<String> influencers= SocialNetwork.influencers(followsGraph);
+        assertEquals(influencers.get(0),"test1");
+                  
+        }
 
     /*
      * Warning: all the tests you write here must be runnable against any

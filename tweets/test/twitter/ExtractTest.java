@@ -37,7 +37,21 @@ public class ExtractTest {
         assertEquals("expected start", d1, timespan.getStart());
         assertEquals("expected end", d2, timespan.getEnd());
     }
-    //check
+    @Test 
+    public void testGetMentionedUserOneMention() 
+    {
+    	assert true;
+    }
+    @Test//if any user have not mention:
+    public void testGetMentionedUsersNoMention() {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
+        
+        assertTrue("expected empty set", mentionedUsers.isEmpty());
+    }
+    @Test//for checking if empty tweet:
+    public void testGetTimespanEmptyTweet() {
+        Timespan timespan = Extract.getTimespan(new ArrayList<Tweet>());
+        assertEquals(timespan.getEnd(), timespan.getStart());  
     @Test
     public void testGetMentionedUsersNoMention() {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
