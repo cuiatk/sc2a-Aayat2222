@@ -31,7 +31,8 @@ public class ExtractTest {
     }
     
     @Test
-    public void testGetTimespanTwoTweets() {
+    public void testGetTimespanTwoTweets()//span of sending 2tweets:
+    {
         Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2));
         
         assertEquals("expected start", d1, timespan.getStart());
@@ -43,7 +44,8 @@ public class ExtractTest {
     	assert true;
     }
     @Test//if any user have not mention:
-    public void testGetMentionedUsersNoMention() {
+    public void testGetMentionedUsersNoMention() //for No mention:
+    {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
         
         assertTrue("expected empty set", mentionedUsers.isEmpty());
@@ -53,12 +55,41 @@ public class ExtractTest {
         Timespan timespan = Extract.getTimespan(new ArrayList<Tweet>());
         assertEquals(timespan.getEnd(), timespan.getStart());  
     @Test
-    public void testGetMentionedUsersNoMention() {
+    public void testGetMentionedUsersNoMention() //if no mentioned:
+    {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
         
         assertTrue("expected empty set", mentionedUsers.isEmpty());
     }
-   
+    @Test
+    public void testGetTimeSpanTwoTweet()//finding time diffference in two tweets:
+    {
+        Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2));
+        
+        assertEquals(d1, timespan.getStart());
+        assertEquals(d2, timespan.getEnd());
+    }
+    @Test
+    public void testMentionedUserOneMentionOnlyOneTweet() //for one mention:
+    //from given example @program creek website:
+    {         
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet4));
+        Set<String> mentionedUsersLowerCase = new HashSet<>();
+        for (String mentionedUser : mentionedUsers) {
+            mentionedUsersLowerCase.add(mentionedUser.toLowerCase());
+        }
+        assertTrue(mentionedUsersLowerCase.contains("test1"));
+    }
+    public void testMentionedUsersTwoMentionOne()//two mentions one person:
+    {         
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet6));
+        Set<String> mentionedUsersLowerCase = new HashSet<>();
+        for (String mentionedUser : mentionedUsers) {
+            mentionedUsersLowerCase.add(mentionedUser.toLowerCase());
+        }
+        assertTrue(mentionedUsersLowerCase.contains("test1"));
+    }
+        
     }
 
     /*
