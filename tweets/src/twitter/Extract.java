@@ -5,6 +5,7 @@ package twitter;
 
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
 
 /**
  * Extract consists of methods that extract information from a list of tweets.
@@ -24,7 +25,10 @@ public class Extract {
      *         every tweet in the list.
      */
     public static Timespan getTimespan(List<Tweet> tweets) {
-        throw new RuntimeException("not implemented");
+    	Instant start = tweets.get(0)getTimestamp();
+    	Instant end = tweets.get(tweets.size()-1).getTimestamp();
+    	Timespan t = new Timespan(start,end);
+    	return t;
     }
 
     /**
@@ -41,9 +45,21 @@ public class Extract {
      *         contain a mention of the username mit.
      *         Twitter usernames are case-insensitive, and the returned set may
      *         include a username at most once.
+     *         
      */
+    		
+    			
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
-        throw new RuntimeException("not implemented");
+       Set<String> mentioned = new HashSet<String>();
+       String tweetstring = tweets.get(0).getText();
+       Pattern pattern = Pattern.compile("@\\w+");
+       Matcher matcher = Pattern.matcher(tweetString);
+       while (matcher.find()) {
+    	   mentioned.add(matcher.group());
+       }
+ 
+    return mentioned;
+       }
     }
 
-}
+

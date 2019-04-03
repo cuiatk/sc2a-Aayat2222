@@ -7,11 +7,11 @@ import static org.junit.Assert.*;
 
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
-public class FilterTest {
+public class ExtractTest {
 
     /*
      * TODO: your testing strategies for these methods should go here.
@@ -31,46 +31,62 @@ public class FilterTest {
     }
     
     @Test
-    public void testWrittenByMultipleTweetsSingleResult() {
-        List<Tweet> writtenBy = Filter.writtenBy(Arrays.asList(tweet1, tweet2), "alyssa");
+    public void testGetTimespanTwoTweets() {
+        Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2));
         
-        assertEquals("expected singleton list", 1, writtenBy.size());
-        assertTrue("expected list to contain tweet", writtenBy.contains(tweet1));
+        assertEquals("expected start", d1, timespan.getStart());
+        assertEquals("expected end", d2, timespan.getEnd());
     }
+    @Test
+    public void testGetMentionedUsersMention() {
+      assert true;
+      }
+    @Test
+    public void testWrittenByEmptyTweets()
+    //for empty tweets:
+    {
+        List<Tweet> writtenBy = Filter.writtenBy(new ArrayList<Tweet>(), "rachit");
+        assertTrue(writtenBy.isEmpty());
+    }
+    @Test
+    public void testWrittenByDifferentCase()
+    //upur or lowercase differnces:
+    {
+        List<Tweet> writtenBy = Filter.writtenBy(Arrays.asList(tweet1), "ALYSSA");
+        assertTrue(writtenBy.contains(tweet1));}
     
     @Test
-    public void testInTimespanMultipleTweetsMultipleResults() {
+    public void testGetMentionedUsersNoMention() 
+    //for no mentioned:
+    {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
+        
+        assertTrue("expected empty set", mentionedUsers.isEmpty());
+    }
+    @Test
+    public void testInTimespanNoTweets() {
         Instant testStart = Instant.parse("2016-02-17T09:00:00Z");
         Instant testEnd = Instant.parse("2016-02-17T12:00:00Z");
-        
-        List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2), new Timespan(testStart, testEnd));
-        
-        assertFalse("expected non-empty list", inTimespan.isEmpty());
-        assertTrue("expected list to contain tweets", inTimespan.containsAll(Arrays.asList(tweet1, tweet2)));
-        assertEquals("expected same order", 0, inTimespan.indexOf(tweet1));
+
+        List<Tweet> inTimespan = Filter.inTimespan(new ArrayList<Tweet>(), new Timespan(testStart, testEnd));
+
+        assertTrue("expected no tweets", inTimespan.containsAll(Arrays.asList(tweet1, tweet2)));
+        assertEquals("expected sgame order", 0, inTimespan.indexOf(tweet1));
     }
     
-    @Test
-    public void testContaining() {
-        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2), Arrays.asList("talk"));
-        
-        assertFalse("expected non-empty list", containing.isEmpty());
-        assertTrue("expected list to contain tweets", containing.containsAll(Arrays.asList(tweet1, tweet2)));
-        assertEquals("expected same order", 0, containing.indexOf(tweet1));
-    }
 
     /*
-     * Warning: all the tests you write here must be runnable against any Filter
-     * class that follows the spec. It will be run against several staff
-     * implementations of Filter, which will be done by overwriting
-     * (temporarily) your version of Filter with the staff's version.
-     * DO NOT strengthen the spec of Filter or its methods.
+     * Warning: all the tests you write here must be runnable against any
+     * Extract class that follows the spec. It will be run against several staff
+     * implementations of Extract, which will be done by overwriting
+     * (temporarily) your version of Extract with the staff's version.
+     * DO NOT strengthen the spec of Extract or its methods.
      * 
      * In particular, your test cases must not call helper methods of your own
-     * that you have put in Filter, because that means you're testing a stronger
-     * spec than Filter says. If you need such helper methods, define them in a
-     * different class. If you only need them in this test class, then keep them
-     * in this test class.
+     * that you have put in Extract, because that means you're testing a
+     * stronger spec than Extract says. If you need such helper methods, define
+     * them in a different class. If you only need them in this test class, then
+     * keep them in this test class
      */
 
 }
